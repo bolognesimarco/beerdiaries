@@ -40,34 +40,25 @@ public class DBInitializer {
 	}
 	
 	
-	private static void initAbstract(EntityManager em, AbstractEntries entries){
+	private static void initAbstract(EntityManager em, AbstractEntries entriesClass){
 		Map.Entry<Integer, String> pair = null;
-		Iterator<Map.Entry<Integer, String>> it = entries.entries();
-	    while (it.hasNext()) {
-	        pair = (Map.Entry<Integer, String>)it.next();
-	        s = new Style();
-	        s.setId(pair.getKey());
-	        s.setName(pair.getValue());
-	        em.persist(s);
-	        logger.info("persisting style "+s.getName());
-	    }
-	}
-	
-	
-	private static void initStyles(EntityManager em){
-		Style s = null;
 		
-		Map.Entry<Integer, String> pair = null;
-		Iterator<Map.Entry<Integer, String>> it = Styles.entries();
+		Iterator<Map.Entry<Integer, String>> it = entriesClass.entries();
 	    while (it.hasNext()) {
 	        pair = (Map.Entry<Integer, String>)it.next();
-	        s = new Style();
-	        s.setId(pair.getKey());
-	        s.setName(pair.getValue());
-	        em.persist(s);
-	        logger.info("persisting style "+s.getName());
+	        Object obj = null;
+			try {
+				obj = entriesClass.getEntryType().newInstance();
+			} catch (InstantiationException | IllegalAccessException e) {
+				logger.error("error persisting {} : {}", entriesClass.getEntryType().getCanonicalName(),pair.getValue(), e);
+			}
+	        entriesClass.setter(obj, pair);
+	        em.persist(entriesClass);
+	        logger.info("persisting {} : {}", entriesClass.getEntryType().getCanonicalName(),pair.getValue());
 	    }
 	}
+	
+	
 	
 	
 

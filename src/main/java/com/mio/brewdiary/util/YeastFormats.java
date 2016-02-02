@@ -7,10 +7,10 @@ import com.mio.brewdiary.model.YeastFormat;
 
 public class YeastFormats extends AbstractEntries {
 	
-	public final int YEAST_FORMAT_DRY_ALE=1;
-	public final int YEAST_FORMAT_LIQUID_ALE=2;
-	public final int YEAST_FORMAT_DRY_LAGER=3;
-	public final int YEAST_FORMAT_LIQUID_LAGER=4;
+	public static final int YEAST_FORMAT_DRY_ALE=1;
+	public static final int YEAST_FORMAT_LIQUID_ALE=2;
+	public static final int YEAST_FORMAT_DRY_LAGER=3;
+	public static final int YEAST_FORMAT_LIQUID_LAGER=4;
 	
 	
 	

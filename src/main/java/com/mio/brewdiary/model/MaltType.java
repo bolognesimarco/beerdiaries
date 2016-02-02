@@ -2,11 +2,16 @@ package com.mio.brewdiary.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
 public class MaltType {
+	
+	public MaltType(){}
+	
+	public MaltType(int id){
+		this.id=id;
+	}
 	
 	@Id
 	private int id;

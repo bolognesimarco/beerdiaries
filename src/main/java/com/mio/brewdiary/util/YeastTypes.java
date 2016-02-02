@@ -2,19 +2,19 @@ package com.mio.brewdiary.util;
 
 import java.util.Map;
 
-import com.mio.brewdiary.model.SpiceType;
-import com.mio.brewdiary.model.WaterType;
 import com.mio.brewdiary.model.YeastType;
 
 public class YeastTypes extends AbstractEntries {
 	
-	public final int YEAST_TYPE_WYEAST_1056=1;
-	public final int YEAST_TYPE_WYEAST_1084=2;
+	public static final int YEAST_TYPE_WYEAST_1056=1;
+	public static final int YEAST_TYPE_WYEAST_1084=2;
+	public static final int YEAST_TYPE_SAFBREW_ABBAYE=3;
 	
 	
 	public YeastTypes() {
         s.put(YEAST_TYPE_WYEAST_1056, "wyeast 1056");
         s.put(YEAST_TYPE_WYEAST_1056, "wyeast 1056");
+        s.put(YEAST_TYPE_SAFBREW_ABBAYE, "safbrew abbaye");
     }
 	
 	public Class getEntryType(){

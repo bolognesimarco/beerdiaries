@@ -8,6 +8,12 @@ import javax.persistence.Id;
 @Entity
 public class YeastFormat {
 	
+	public YeastFormat() {}
+	
+	public YeastFormat(int id){
+		this.id=id;
+	}
+	
 	@Id
 	private int id;
 	

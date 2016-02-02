@@ -15,7 +15,7 @@ public class Yeast {
 	private int id;
 	
 	@Column
-	private int grams;
+	private double grams;
 	
 	@ManyToOne
 	@JoinColumn(name="type", nullable=false)
@@ -25,11 +25,6 @@ public class Yeast {
 	@JoinColumn(name="format", nullable=false)
 	private YeastFormat format;
 	
-	@Column
-	private int temperature;
-	
-	@Column
-	private int minutes;
 	
 	
 	
@@ -39,23 +34,11 @@ public class Yeast {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getGrams() {
+	public double getGrams() {
 		return grams;
 	}
-	public void setGrams(int grams) {
+	public void setGrams(double grams) {
 		this.grams = grams;
-	}
-	public int getTemperature() {
-		return temperature;
-	}
-	public void setTemperature(int temperature) {
-		this.temperature = temperature;
-	}
-	public int getMinutes() {
-		return minutes;
-	}
-	public void setMinutes(int minutes) {
-		this.minutes = minutes;
 	}
 	public YeastType getType() {
 		return type;

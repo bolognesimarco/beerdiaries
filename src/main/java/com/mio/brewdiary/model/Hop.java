@@ -21,6 +21,9 @@ public class Hop {
 	@Column
 	private int grams;
 	
+	@Column
+	private int minutes;
+	
 	@ManyToOne
 	@JoinColumn(name="format", nullable=false)
 	private HopFormat format;
@@ -50,4 +53,11 @@ public class Hop {
 	public void setFormat(HopFormat format) {
 		this.format = format;
 	}
+	public int getMinutes() {
+		return minutes;
+	}
+	public void setMinutes(int minutes) {
+		this.minutes = minutes;
+	}
+	
 }

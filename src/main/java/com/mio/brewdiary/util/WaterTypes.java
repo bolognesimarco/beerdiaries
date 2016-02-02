@@ -2,12 +2,11 @@ package com.mio.brewdiary.util;
 
 import java.util.Map;
 
-import com.mio.brewdiary.model.SpiceType;
 import com.mio.brewdiary.model.WaterType;
 
 public class WaterTypes extends AbstractEntries {
 	
-	public final int WATER_TYPE_TUB=1;
+	public static final int WATER_TYPE_TUB=1;
 	
 	
 	

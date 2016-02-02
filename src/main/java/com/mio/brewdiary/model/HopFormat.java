@@ -8,6 +8,12 @@ import javax.persistence.Id;
 @Entity
 public class HopFormat {
 	
+	public HopFormat() {}
+	
+	public HopFormat(int id){
+		this.id=id;
+	}
+	
 	@Id
 	private int id;
 	

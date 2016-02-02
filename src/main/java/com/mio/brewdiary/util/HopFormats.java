@@ -6,9 +6,9 @@ import com.mio.brewdiary.model.HopFormat;
 
 public class HopFormats extends AbstractEntries {
 	
-	public final int HOP_FORMAT_PELLET=1;
-	public final int HOP_FORMAT_PLUGS=2;
-	public final int HOP_FORMAT_LEAF=3;
+	public static final int HOP_FORMAT_PELLET=1;
+	public static final int HOP_FORMAT_PLUGS=2;
+	public static final int HOP_FORMAT_LEAF=3;
 	
 	
 	

@@ -1,19 +1,17 @@
 package com.mio.brewdiary.util;
 
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
-import com.mio.brewdiary.model.HopFormat;
-import com.mio.brewdiary.model.HopType;
 import com.mio.brewdiary.model.MaltType;
-import com.mio.brewdiary.model.Style;
 
 public class MaltTypes extends AbstractEntries {
 	
-	public final int MALT_TYPE_MUNICH=1;
-	public final int MALT_TYPE_VIENNA=2;
-	public final int MALT_TYPE_CRYSTAL=3;
+	public static final int MALT_TYPE_MUNICH=1;
+	public static final int MALT_TYPE_VIENNA=2;
+	public static final int MALT_TYPE_CRYSTAL=3;
+	public static final int MALT_TYPE_MARIS_OTTER=4;
+	public static final int MALT_TYPE_BROWN=5;
+	public static final int MALT_TYPE_CHOCOLATE=6;
 	
 	
 	
@@ -21,6 +19,9 @@ public class MaltTypes extends AbstractEntries {
         s.put(MALT_TYPE_MUNICH, "munich");
         s.put(MALT_TYPE_VIENNA, "vienna");
         s.put(MALT_TYPE_CRYSTAL, "crystal");
+        s.put(MALT_TYPE_MARIS_OTTER, "maris otter");
+        s.put(MALT_TYPE_BROWN, "brown");
+        s.put(MALT_TYPE_BROWN, "chocolate");
     }
 	
 	public Class getEntryType(){

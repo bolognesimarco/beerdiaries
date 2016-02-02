@@ -10,6 +10,15 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Hop {
 	
+	public Hop() {}
+	
+	public Hop(int g, int m, HopType t, HopFormat f){
+		this.grams=g;
+		this.minutes=m;
+		this.type=t;
+		this.format=f;
+	}
+	
 	@Id
 	@GeneratedValue
 	private int id;

@@ -27,29 +27,31 @@ public class Recipe {
 	@JoinColumn(name="style", nullable=false)
 	private Style style;
 	
-	@OneToMany(cascade=CascadeType.ALL, mappedBy="recipe")
+	@OneToMany(orphanRemoval=true, cascade=CascadeType.ALL)
+	@JoinColumn(name="recipe")
 	private List<Cotta> cotte = new ArrayList<Cotta>();
 	
-	@OneToMany(cascade=CascadeType.ALL, mappedBy="recipe")
+	@OneToMany(orphanRemoval=true, cascade=CascadeType.ALL)
+	@JoinColumn(name="recipe")
 	private List<Malt> malts = new ArrayList<Malt>();
 	
-	@OneToOne
-	@JoinColumn(name="mash", unique=true, nullable=false, updatable=false)
-	private Water mash;
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="mashWater", unique=true, nullable=false, updatable=false)
+	private Water mashWater;
 	
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="sparge", unique=true, nullable=false, updatable=false)
 	private Water sparge;
 	
-	@OneToMany(orphanRemoval=true)
+	@OneToMany(orphanRemoval=true, cascade=CascadeType.ALL)
 	@JoinColumn(name="recipe")
 	private List<Hop> hops = new ArrayList<Hop>();
 	
-	@OneToMany(orphanRemoval=true)
+	@OneToMany(orphanRemoval=true, cascade=CascadeType.ALL)
 	@JoinColumn(name="recipe")
 	private List<Spice> spices = new ArrayList<Spice>();
 	
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="YeastId", unique=true, nullable=false, updatable=false)
 	private Yeast yeast;
 	
@@ -62,7 +64,8 @@ public class Recipe {
 	@Column
 	private int expectedFG;
 	
-	@OneToMany(cascade=CascadeType.ALL, mappedBy="recipe")
+	@OneToMany(orphanRemoval=true, cascade=CascadeType.ALL)
+	@JoinColumn(name="recipe")
 	private List<Mash> mashSteps = new ArrayList<Mash>();
 	
 	
@@ -96,11 +99,11 @@ public class Recipe {
 	public void setMalts(List<Malt> malts) {
 		this.malts = malts;
 	}
-	public Water getMash() {
-		return mash;
+	public Water getMashWater() {
+		return mashWater;
 	}
-	public void setMash(Water mash) {
-		this.mash = mash;
+	public void setMashWater(Water mashWater) {
+		this.mashWater = mashWater;
 	}
 	public Water getSparge() {
 		return sparge;

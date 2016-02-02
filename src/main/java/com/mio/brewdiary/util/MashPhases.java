@@ -6,13 +6,13 @@ import com.mio.brewdiary.model.MashPhase;
 
 public class MashPhases extends AbstractEntries {
 	
-	public final int MASH_PHASE_MASH_IN=1;
-	public final int MASH_PHASE_ACID_REST=2;
-	public final int MASH_PHASE_PROTEIN_REST=3;
-	public final int MASH_PHASE_BETA_AMILASI=4;
-	public final int MASH_PHASE_ALFA_AMILASI=5;
-	public final int MASH_PHASE_MASH_OUT=6;
-	public final int MASH_PHASE_SACCARIFICAZIONE=7;
+	public final static int MASH_PHASE_MASH_IN=1;
+	public final static int MASH_PHASE_ACID_REST=2;
+	public final static int MASH_PHASE_PROTEIN_REST=3;
+	public final static int MASH_PHASE_BETA_AMILASI=4;
+	public final static int MASH_PHASE_ALFA_AMILASI=5;
+	public final static int MASH_PHASE_MASH_OUT=6;
+	public final static int MASH_PHASE_SACCARIFICAZIONE=7;
 	
 	
 	

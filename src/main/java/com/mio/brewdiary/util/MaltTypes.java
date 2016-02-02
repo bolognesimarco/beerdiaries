@@ -12,6 +12,7 @@ public class MaltTypes extends AbstractEntries {
 	public static final int MALT_TYPE_MARIS_OTTER=4;
 	public static final int MALT_TYPE_BROWN=5;
 	public static final int MALT_TYPE_CHOCOLATE=6;
+	public static final int MALT_TYPE_CARA_120=7;
 	
 	
 	
@@ -22,6 +23,7 @@ public class MaltTypes extends AbstractEntries {
         s.put(MALT_TYPE_MARIS_OTTER, "maris otter");
         s.put(MALT_TYPE_BROWN, "brown");
         s.put(MALT_TYPE_BROWN, "chocolate");
+        s.put(MALT_TYPE_CARA_120, "cara 120");
     }
 	
 	public Class getEntryType(){

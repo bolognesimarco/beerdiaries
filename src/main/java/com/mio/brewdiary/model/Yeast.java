@@ -10,6 +10,14 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Yeast {
 	
+	public Yeast() {}
+	
+	public Yeast(double g, YeastType t, YeastFormat f){
+		this.grams=g;
+		this.type=t;
+		this.format=f;
+	}
+	
 	@Id
 	@GeneratedValue
 	private int id;

@@ -25,7 +25,7 @@ public class HopTypes extends AbstractEntries {
 	}
 	
 	public void setter(Object obj, Map.Entry<Integer, Object> values){
-		String[] words=((String)values.getValue()).split("|");
+		String[] words=((String)values.getValue()).split("\\|");
 		((HopType)obj).setId(values.getKey());
 		((HopType)obj).setName(words[0]);
 		((HopType)obj).setAa(new Double(words[1]));

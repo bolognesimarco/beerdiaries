@@ -10,6 +10,13 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Water {
 	
+	public Water() {}
+	
+	public Water(int l, WaterType t){
+		this.litres=l;
+		this.type=t;
+	}
+	
 	@Id
 	@GeneratedValue
 	private int id;

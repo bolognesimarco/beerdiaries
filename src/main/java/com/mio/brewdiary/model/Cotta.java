@@ -4,8 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
 @Entity
 public class Cotta {
@@ -13,10 +11,6 @@ public class Cotta {
 	@Id
 	@GeneratedValue
 	private int id;
-	
-	@ManyToOne
-	@JoinColumn(name="recipe", nullable=false)
-	private Recipe recipe;
 	
 	@Column
 	private int og;
@@ -32,12 +26,6 @@ public class Cotta {
 	}
 	public void setId(int id) {
 		this.id = id;
-	}
-	public Recipe getRecipe() {
-		return recipe;
-	}
-	public void setRecipe(Recipe recipe) {
-		this.recipe = recipe;
 	}
 	public int getOg() {
 		return og;

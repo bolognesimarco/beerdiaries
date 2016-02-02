@@ -8,6 +8,20 @@ import javax.persistence.EntityManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.mio.brewdiary.model.Hop;
+import com.mio.brewdiary.model.HopFormat;
+import com.mio.brewdiary.model.HopType;
+import com.mio.brewdiary.model.Malt;
+import com.mio.brewdiary.model.MaltType;
+import com.mio.brewdiary.model.Mash;
+import com.mio.brewdiary.model.MashPhase;
+import com.mio.brewdiary.model.Recipe;
+import com.mio.brewdiary.model.Style;
+import com.mio.brewdiary.model.Water;
+import com.mio.brewdiary.model.WaterType;
+import com.mio.brewdiary.model.Yeast;
+import com.mio.brewdiary.model.YeastFormat;
+import com.mio.brewdiary.model.YeastType;
 import com.mio.brewdiary.util.AbstractEntries;
 import com.mio.brewdiary.util.HopFormats;
 import com.mio.brewdiary.util.HopTypes;
@@ -43,6 +57,24 @@ public class DBInitializer {
 			initAbstract(em, new WaterTypes());
 			initAbstract(em, new YeastFormats());
 			initAbstract(em, new YeastTypes());
+			
+			Recipe winterAle = new Recipe();
+			winterAle.setName("winter ale");
+			winterAle.setExpectedFG(1022);
+			winterAle.setExpectedOG(1064);
+			winterAle.setStyle(em.getReference(Style.class, Styles.STYLE_WINTER_ALE));
+			winterAle.setMashWater(new Water(21, em.getReference(WaterType.class, WaterTypes.WATER_TYPE_TUB)));
+			winterAle.setSparge(new Water(21, em.getReference(WaterType.class, WaterTypes.WATER_TYPE_TUB)));
+			winterAle.getMalts().add(new Malt(1570, em.getReference(MaltType.class, MaltTypes.MALT_TYPE_MUNICH)));
+			winterAle.getMalts().add(new Malt(520, em.getReference(MaltType.class, MaltTypes.MALT_TYPE_CARA_120)));
+			winterAle.getMalts().add(new Malt(1000, em.getReference(MaltType.class, MaltTypes.MALT_TYPE_MARIS_OTTER)));
+			winterAle.getMalts().add(new Malt(4100, em.getReference(MaltType.class, MaltTypes.MALT_TYPE_VIENNA)));
+			winterAle.getHops().add(new Hop(100, 80, new HopType(HopTypes.HOP_TYPE_SAAZ), new HopFormat(HopFormats.HOP_FORMAT_LEAF)));
+			winterAle.setYeast(new Yeast(11.5, new YeastType(YeastTypes.YEAST_TYPE_SAFALE_S04), new YeastFormat(YeastFormats.YEAST_FORMAT_DRY)));
+			winterAle.getMashSteps().add(new Mash(65, 60, new MashPhase(MashPhases.MASH_PHASE_SACCARIFICAZIONE)));
+			winterAle.getMashSteps().add(new Mash(78, 15, new MashPhase(MashPhases.MASH_PHASE_MASH_OUT)));
+			em.persist(winterAle);
+			
 			em.getTransaction().commit();
 		} catch (Exception e) {
 			logger.error("",e);

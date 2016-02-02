@@ -10,6 +10,13 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Malt {
 	
+	public Malt() {}
+	
+	public Malt(int gr, MaltType t){
+		this.grams=gr;
+		this.type=t;
+	}
+	
 	@Id
 	@GeneratedValue
 	private int id;
@@ -21,16 +28,6 @@ public class Malt {
 	@JoinColumn(name="type", nullable=false)
 	private MaltType type;
 	
-	@ManyToOne
-	@JoinColumn(name="recipe", nullable=false)
-	private Recipe recipe;
-	
-	public Recipe getRecipe() {
-		return recipe;
-	}
-	public void setRecipe(Recipe recipe) {
-		this.recipe = recipe;
-	}
 	public int getId() {
 		return id;
 	}

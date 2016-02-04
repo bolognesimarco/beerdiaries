@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html ng-app="beerdiaries">
+<head>
+<meta charset="ISO-8859-1">
+<title>Beer Diaries</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
+<script src="scripts/controllers.js"></script>
+</head>
+<body ng-controller="homeController">
+	<header>
+		<nav>
+			<a href="#">Home</a>
+			<a href="#info">Info</a>
+			<a href="#">Altri link...</a>
+			<a href="#registrati">Registrati</a>
+		</nav>
+	</header>
+	<section><a href="#login">Login</a></section>
+	<section>
+		<div ng-view></div>
+	</section>
+	<footer>
+		<a href="#twitter">Twitter</a>
+		<a href="#facebook">Facebook</a>
+	</footer>
+</body>
+</html>

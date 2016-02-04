@@ -1,3 +1,54 @@
+var beerApp = angular.module('beerdiaries', [ 'ngRoute' ]);
+
+beerApp.controller(
+		'homeController',
+		[
+		 '$scope', 
+		 '$http', 
+		 function home($scope, $http){
+			 alert('homeController');
+		 }
+		]
+);
+
+beerApp.controller(
+		'loggedController',
+		[
+		 '$scope', 
+		 '$http', 
+		 '$location',
+		 function logged($scope, $http, $location){
+			 alert('loggedController');
+			 $location.path("views/diary.html")
+		 }
+		]
+);
+
+
+beerApp.config(
+		[
+		 '$routeProvider', 
+		 function($routeProvider) {
+			$routeProvider
+			.when('/login', {
+					templateUrl : '',
+					controller : 'loggedController'
+				})
+			.when('/logout', {
+					templateUrl : 'home.html',
+					controller : 'homeController'
+				})
+			.otherwise({
+					redirectTo : 'home.html',
+					controller : 'homeController'
+				});
+		 }
+		]
+);
+
+
+
+
 var app = angular.module('beer', [ 'ngRoute' ]);
 
 var recipesControllers = angular.module('recipesControllers', []);

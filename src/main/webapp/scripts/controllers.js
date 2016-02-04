@@ -1,30 +1,39 @@
-var app = angular.module('beer', [ 'recipesControllers', 'ngRoute' ]);
+var app = angular.module('beer', ['ngRoute' ]);
 
 var recipesControllers = angular.module('recipesControllers', []);
 
-recipesControllers.controller('recL', [
+app.controller('recL', [
 		'$scope',
 		'$http',
 		function recipes($scope, $http) {
+			//$scope.recipes="RICETTE"
 			$http.get('http://localhost:8080/beerdiaries/api/recipe/all')
 					.success(function(data) {
 						$scope.recipes = data;
 					});
 		} ]);
 
-recipesControllers.controller('recI', [ '$scope', '$routeParams',
+
+
+app.controller('recI', [ '$scope', '$routeParams',
 		function recipes($scope, $routeParams) {
-			$scope.recipe = $routeParams.recipe;
+			//$scope.mess="MESS"
+		$scope.recipe = $routeParams.recipe;
 		} ]);
 
+
+
 app.config([ '$routeProvider', function($routeProvider) {
-	$routeProvider.when('/recipes', {
+	$routeProvider
+	.when('/recL', {
 		templateUrl : 'views/recL.html',
 		controller : 'recL'
-	}).when('/recipes/:recipe', {
+	})
+	.when('/recI', {
 		templateUrl : 'views/recI.html',
 		controller : 'recI'
-	}).otherwise({
-		redirectTo : '/recipes'
+	})
+	.otherwise({
+		redirectTo : '/recL'
 	});
 } ]);

@@ -1,6 +1,30 @@
-var beerApp = angular.module('beerdiaries', [ 'ngRoute' ]);
+var beerApp = angular.module('beerdiaries', [ 'ngRoute' , 'beerControllers']);
 
-beerApp.controller(
+beerApp.config(
+		[
+		 '$routeProvider', 
+		 function($routeProvider) {
+			$routeProvider
+			.when('/login', {
+					templateUrl : 'views/loggedin.html',
+					controller : 'loginController'
+				})
+			.when('/logout', {
+					templateUrl : 'views/logout.html',
+					controller : 'logoutController'
+				})
+			.otherwise({
+					redirectTo : 'home.html',
+					controller : 'homeController'
+				});
+		 }
+		]
+);
+
+
+var beerControllers = angular.module('beerControllers',[]);
+
+beerControllers.controller(
 		'homeController',
 		[
 		 '$scope', 
@@ -11,40 +35,31 @@ beerApp.controller(
 		]
 );
 
-beerApp.controller(
-		'loggedController',
+beerControllers.controller(
+		'loginController',
 		[
 		 '$scope', 
 		 '$http', 
 		 '$location',
 		 function logged($scope, $http, $location){
-			 alert('loggedController');
-			 $location.path("views/diary.html")
+			 $scope.switcher="2";
 		 }
 		]
 );
 
 
-beerApp.config(
+beerControllers.controller(
+		'logoutController',
 		[
-		 '$routeProvider', 
-		 function($routeProvider) {
-			$routeProvider
-			.when('/login', {
-					templateUrl : '',
-					controller : 'loggedController'
-				})
-			.when('/logout', {
-					templateUrl : 'home.html',
-					controller : 'homeController'
-				})
-			.otherwise({
-					redirectTo : 'home.html',
-					controller : 'homeController'
-				});
+		 '$scope', 
+		 '$http', 
+		 '$location',
+		 function logged($scope, $http, $location){
+			 alert('logoutController');
 		 }
 		]
 );
+
 
 
 

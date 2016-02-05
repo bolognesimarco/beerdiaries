@@ -42,7 +42,7 @@ beerControllers.controller(
 		 '$http', 
 		 '$location',
 		 function logged($scope, $http, $location){
-			 $scope.switcher="2";
+			 $scope.switcher="3";
 		 }
 		]
 );
@@ -60,7 +60,20 @@ beerControllers.controller(
 		]
 );
 
-
+beerControllers.controller(
+		'recipes', 
+		[
+		 '$scope',
+         '$http',
+         function recipes($scope, $http) {
+			 $http.get('http://localhost:8080/beerdiaries/api/recipe/all')
+             	.success(function(data) {
+             		$scope.recipes = data;
+                }
+             );
+		 } 
+		]
+);
 
 
 

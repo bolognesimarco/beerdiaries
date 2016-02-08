@@ -12,7 +12,21 @@ bdctrls.controller(
 		 }
 		]
 );
-
+bdctrls.controller(
+		'recipeController',
+		[
+		 '$scope',
+         '$http',
+         '$routeParams',
+         function recipes($scope, $http, $routeParams) {
+			 $http.get('http://localhost:8080/beerdiaries/api/recipe/get/'+$routeParams.recipeid)
+             	.then(function(response) {
+             		$scope.recipe = response.data;
+                }
+             );
+		 } 
+		]
+);
 bdctrls.controller(
 		'recipesController',
 		[
@@ -20,8 +34,8 @@ bdctrls.controller(
          '$http',
          function recipes($scope, $http) {
 			 $http.get('http://localhost:8080/beerdiaries/api/recipe/all')
-             	.success(function(data) {
-             		$scope.recipes = data;
+             	.then(function(response) {
+             		$scope.recipes = response.data;
                 }
              );
 		 } 
@@ -45,28 +59,27 @@ bdapp.config(
 			$routeProvider
 			.when('/reg', {
 				templateUrl : 'views/registration.html',
-				controller : 'loginController',
-				resolve: true
+				controller : 'loginController'
 			})
 			.when('/recipes', {
 				templateUrl : 'views/recipes.html',
-				controller : 'recipesController',
-				resolve: true
+				controller : 'recipesController'
 			})
 			.when('/diary', {
 				templateUrl : 'views/diary.html',
-				controller : 'loginController',
-				resolve: true
+				controller : 'loginController'
 			})
 			.when('/login', {
 					templateUrl : 'views/loggedin.html',
-					controller : 'loginController',
-					resolve: true
+					controller : 'loginController'
 				})
 			.when('/logout', {
 					templateUrl : 'views/guest.html',
-					controller : 'logoutController',
-					resolve: false
+					controller : 'logoutController'
+				})
+			.when('/recipe/:recipeid', {
+					templateUrl : 'views/recipeDetail.html',
+					controller : 'recipeController'
 				})
 			.otherwise({
 					redirectTo : 'views/guest.html',

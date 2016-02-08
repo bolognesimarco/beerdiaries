@@ -1,1 +1,25 @@
-TBD: detail view for recipe: <span>{{recipe.name}}</span>
+<div class="row">
+	<div class="col-md-12">{{recipe.name}}</div>
+</div>
+<div class="row">
+	<div class="col-md-12">{{recipe.style.name}}</div>
+</div>
+<div class="row">
+	<div class="col-md-12">MALTS</div>
+</div>
+<div class="row" ng-repeat="m in recipe.malts">
+	<div class="col-md-6">{{m.type.name}}</div><div class="col-md-6">{{m.grams}}</div>
+</div>
+<div class="row">
+	<div class="col-md-12">HOPS</div>
+</div>
+<div class="row" ng-repeat="h in recipe.hops">
+	<div class="col-md-3">{{h.type.name}}</div><div class="col-md-3">{{h.grams}}</div>
+	<div class="col-md-3">{{h.format.name}}</div><div class="col-md-3">{{h.minutes}}</div>
+</div>
+<div class="row">
+	<div class="col-md-12">SPICES</div>
+</div>
+<div class="row" ng-repeat="s in recipe.spices">
+	<div class="col-md-6">{{s.type.name}}</div><div class="col-md-6">{{s.grams}}</div>
+</div>

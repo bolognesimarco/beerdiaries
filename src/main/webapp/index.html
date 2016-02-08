@@ -3,23 +3,35 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>beerdiaries</title>
-<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.css" />
-<script	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
-<script	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
+<link rel="stylesheet"
+	href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+<link rel="stylesheet"
+	href="//netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.css" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
 <script src="scripts/application.js"></script>
 </head>
-<body ng-controller="mainController">
+<body>
 	<header>
-		<nav ng-controller="loginController">
-			<ul>
-				<li><a href="#">Recipes</a></li>
-				<li><a href="#">My Diary</a></li>
-				<li ng-if="!logged"><a href="#login">Login</a></li>
-				<li ng-if="logged"><a href="#logout">Logout</a></li>
-				<li ng-if="!logged"><a href="#reg">Registrati</a></li>
-			</ul>
+
+
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="#">beerdiaries</a>
+				</div>
+				<ul class="nav navbar-nav">
+					<li ng-if="logged"><a href="#recipes">Recipes</a></li>
+					<li ng-if="logged"><a href="#diary">My Diary</a></li>
+					<li ng-if="!logged"><a href="#login">Login</a></li>
+					<li ng-if="logged"><a href="#logout">Logout</a></li>
+					<li ng-if="!logged"><a href="#reg">Registrati</a></li>
+				</ul>
+			</div>
 		</nav>
+		
 	</header>
 
 	<div ng-view></div>

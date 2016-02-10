@@ -35,11 +35,11 @@ public class Recipe {
 	@JoinColumn(name="recipe")
 	private List<Malt> malts = new ArrayList<Malt>();
 	
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne(orphanRemoval=true, cascade=CascadeType.ALL)
 	@JoinColumn(name="mashWater", unique=true, nullable=false, updatable=false)
 	private Water mashWater;
 	
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne(orphanRemoval=true, cascade=CascadeType.ALL)
 	@JoinColumn(name="sparge", unique=true, nullable=false, updatable=false)
 	private Water sparge;
 	
@@ -51,7 +51,7 @@ public class Recipe {
 	@JoinColumn(name="recipe")
 	private List<Spice> spices = new ArrayList<Spice>();
 	
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne(orphanRemoval=true, cascade=CascadeType.ALL)
 	@JoinColumn(name="YeastId", unique=true, nullable=false, updatable=false)
 	private Yeast yeast;
 	

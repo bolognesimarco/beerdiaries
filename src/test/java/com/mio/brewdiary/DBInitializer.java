@@ -16,6 +16,8 @@ import com.mio.brewdiary.model.MaltType;
 import com.mio.brewdiary.model.Mash;
 import com.mio.brewdiary.model.MashPhase;
 import com.mio.brewdiary.model.Recipe;
+import com.mio.brewdiary.model.Spice;
+import com.mio.brewdiary.model.SpiceType;
 import com.mio.brewdiary.model.Style;
 import com.mio.brewdiary.model.Water;
 import com.mio.brewdiary.model.WaterType;
@@ -76,6 +78,28 @@ public class DBInitializer {
 			svuotino.getMashSteps().add(new Mash(78, 15, em.getReference(MashPhase.class, MashPhases.MASH_PHASE_MASH_OUT)));
 			em.persist(svuotino);
 			
+			
+			Recipe winterAle = new Recipe();
+			winterAle.setName("mr malt's winter ale kit");
+			winterAle.setExpectedFG(1014);
+			winterAle.setExpectedOG(1060);
+			winterAle.setTotalBoilTime(60);
+			winterAle.setStyle(em.getReference(Style.class, Styles.STYLE_WINTER_ALE));
+			winterAle.setMashWater(new Water(16, em.getReference(WaterType.class, WaterTypes.WATER_TYPE_TUB)));
+			winterAle.setSparge(new Water(20, em.getReference(WaterType.class, WaterTypes.WATER_TYPE_TUB)));
+			winterAle.getMalts().add(new Malt(5000, em.getReference(MaltType.class, MaltTypes.MALT_TYPE_MARIS_OTTER)));
+			winterAle.getMalts().add(new Malt(500, em.getReference(MaltType.class, MaltTypes.MALT_TYPE_BROWN)));
+			winterAle.getMalts().add(new Malt(300, em.getReference(MaltType.class, MaltTypes.MALT_TYPE_CHOCOLATE)));
+			winterAle.getHops().add(new Hop(50, 60, em.getReference(HopType.class, HopTypes.HOP_TYPE_KENT_GOLDING), em.getReference(HopFormat.class, HopFormats.HOP_FORMAT_LEAF)));
+			winterAle.getHops().add(new Hop(30, 10, em.getReference(HopType.class, HopTypes.HOP_TYPE_KENT_GOLDING), em.getReference(HopFormat.class, HopFormats.HOP_FORMAT_LEAF)));
+			winterAle.getHops().add(new Hop(10, 0, em.getReference(HopType.class, HopTypes.HOP_TYPE_KENT_GOLDING), em.getReference(HopFormat.class, HopFormats.HOP_FORMAT_LEAF)));
+			winterAle.getSpices().add(new Spice(300, em.getReference(SpiceType.class, SpiceTypes.SPICE_TYPE_CANDY_BROWN_SUGAR)));
+			winterAle.getSpices().add(new Spice(25, em.getReference(SpiceType.class, SpiceTypes.SPICE_TYPE_MR_MALT_WINTER_ALE_MIX)));
+			winterAle.getMashSteps().add(new Mash(66, 30, em.getReference(MashPhase.class, MashPhases.MASH_PHASE_SACCARIFICAZIONE)));
+			winterAle.getMashSteps().add(new Mash(77, 5, em.getReference(MashPhase.class, MashPhases.MASH_PHASE_MASH_OUT)));
+			winterAle.setYeast(new Yeast(11.5, em.getReference(YeastType.class, YeastTypes.YEAST_TYPE_SAFBREW_ABBAYE), em.getReference(YeastFormat.class, YeastFormats.YEAST_FORMAT_DRY)));
+			em.persist(winterAle);
+			
 			em.getTransaction().commit();
 		} catch (Exception e) {
 			logger.error("",e);
@@ -93,6 +117,7 @@ public class DBInitializer {
 		logger.info("removed {} yeast formats",em.createQuery("delete from YeastFormat").executeUpdate());
 		logger.info("removed {} water types",em.createQuery("delete from WaterType").executeUpdate());
 		logger.info("removed {} yeast types",em.createQuery("delete from YeastType").executeUpdate());
+		
 	}
 	
 	

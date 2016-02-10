@@ -22,7 +22,7 @@ public class MaltTypes extends AbstractEntries {
         s.put(MALT_TYPE_CRYSTAL, "crystal");
         s.put(MALT_TYPE_MARIS_OTTER, "maris otter");
         s.put(MALT_TYPE_BROWN, "brown");
-        s.put(MALT_TYPE_BROWN, "chocolate");
+        s.put(MALT_TYPE_CHOCOLATE, "chocolate");
         s.put(MALT_TYPE_CARA_120, "cara 120");
     }
 	

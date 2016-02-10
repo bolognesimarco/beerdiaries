@@ -5,6 +5,10 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.mio.brewdiary.DBInitializer;
 import com.mio.brewdiary.dto.RecipeListItem;
 import com.mio.brewdiary.model.Hop;
 import com.mio.brewdiary.model.Malt;
@@ -13,6 +17,8 @@ import com.mio.brewdiary.model.Spice;
 import com.mio.brewdiary.web.EMF;
 
 public class RecipeServiceImpl implements RecipeService {
+	
+	static Logger logger = LoggerFactory.getLogger(RecipeServiceImpl.class);
 	
 	@Override
 	public Recipe getRecipe(int id) throws Exception{
@@ -24,6 +30,7 @@ public class RecipeServiceImpl implements RecipeService {
 	public List<RecipeListItem> listAllRecipes() throws Exception {
 		EntityManager em = EMF.createEntityManager();
 		List<Recipe> recipes = em.createQuery("from Recipe r", Recipe.class).getResultList();
+		logger.debug("found {} recipes",recipes.size());
 		List<RecipeListItem> items = new ArrayList<RecipeListItem>(recipes.size());
 		for (Recipe r : recipes) {
 			RecipeListItem i = new RecipeListItem();
@@ -32,18 +39,27 @@ public class RecipeServiceImpl implements RecipeService {
 			i.setId(r.getId());
 			i.setName(r.getName());
 			i.setYeastType(r.getYeast().getType().getName());
+			i.setStyle(r.getStyle().getName());
+			i.setCookedTimes(4);
 			for (Hop h : r.getHops()) {
-				i.getHopTypes().add(h.getType().getName());
+				if(! i.getHopTypes().contains(h.getType().getName())){
+					i.getHopTypes().add(h.getType().getName());
+				}
 			}
 			for(Malt m : r.getMalts()){
-				i.getMaltTypes().add(m.getType().getName());
+				if(! i.getMaltTypes().contains(m.getType().getName())){
+					i.getMaltTypes().add(m.getType().getName());
+				}
 			}
 			for(Spice s : r.getSpices()){
-				i.getSpiceTypes().add(s.getType().getName());
+				if(! i.getSpiceTypes().contains(s.getType().getName())){
+					i.getSpiceTypes().add(s.getType().getName());
+				}
 			}
 			
 			items.add(i);
 		}
+		logger.debug("found {} recipes",items.size());
 		return items;
 	}
 

@@ -9,9 +9,11 @@ public class RecipeListItem {
 	private int expectedOG;
 	private int expectedFG;
 	private String yeastType;
+	private String style;
 	private List<String> maltTypes = new ArrayList<String>();
 	private List<String> hopTypes = new ArrayList<String>();
 	private List<String> spiceTypes = new ArrayList<String>();
+	private int cookedTimes=0;
 	
 	public int getId() {
 		return id;
@@ -60,6 +62,18 @@ public class RecipeListItem {
 	}
 	public void setYeastType(String yeastType) {
 		this.yeastType = yeastType;
+	}
+	public String getStyle() {
+		return style;
+	}
+	public void setStyle(String style) {
+		this.style = style;
+	}
+	public int getCookedTimes() {
+		return cookedTimes;
+	}
+	public void setCookedTimes(int cookedTimes) {
+		this.cookedTimes = cookedTimes;
 	}
 	
 	

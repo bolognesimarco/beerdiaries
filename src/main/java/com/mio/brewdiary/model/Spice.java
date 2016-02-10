@@ -10,6 +10,13 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Spice {
 	
+	public Spice() {}
+	
+	public Spice(int g, SpiceType t){
+		this.grams=g;
+		this.type=t;
+	}
+	
 	@Id
 	@GeneratedValue
 	private int id;

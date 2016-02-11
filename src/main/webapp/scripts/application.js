@@ -17,15 +17,20 @@ bdctrls.controller(
 		 '$scope',
 		 '$rootScope',
 		 function registrationController($scope, $rootScope){
-			 
 
-			    $scope.message = "";
+			 metodoDelController = function(){
+				 alert($scope.user.username);
+			 };
 
-			   $scope.user = {
-			      username: "",
-			      password: "",
-			      confirmPassword: ""
-			    };
+			 $scope.message = "";
+
+			 $scope.user = {
+			   username: "",
+			   password: "",
+			   password_c: "",
+			   email:"",
+			   name:""
+			 };
 		 }
 		]
 );
@@ -129,23 +134,15 @@ bdapp.config(
 		]
 );
 
-var compareTo = function() {
+
+bdapp.directive('validPasswordC', function () {
     return {
-        require: "ngModel",
-        scope: {
-            otherModelValue: "=compareTo"
-        },
-        link: function(scope, element, attributes, ngModel) {
-             alert('comparing')
-            ngModel.$validators.compareTo = function(modelValue) {
-                return modelValue == scope.otherModelValue;
-            };
- 
-            scope.$watch("otherModelValue", function() {
-                ngModel.$validate();
-            });
+        require: 'ngModel',
+        link: function (scope, elm, attrs, ctrl) {
+            ctrl.$parsers.unshift(function (viewValue, $scope) {
+                var noMatch = viewValue != scope.regForm.password.$viewValue
+                ctrl.$setValidity('noMatch', !noMatch)
+            })
         }
-    };
-};
- 
-bdapp.directive("compareTo", compareTo);
+    }
+})

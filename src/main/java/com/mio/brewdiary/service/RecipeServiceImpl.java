@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import com.mio.brewdiary.DBInitializer;
 import com.mio.brewdiary.dto.RecipeListItem;
+import com.mio.brewdiary.model.Brewer;
 import com.mio.brewdiary.model.Hop;
 import com.mio.brewdiary.model.Malt;
 import com.mio.brewdiary.model.Recipe;
@@ -61,6 +62,15 @@ public class RecipeServiceImpl implements RecipeService {
 		}
 		logger.debug("found {} recipes",items.size());
 		return items;
+	}
+	
+	public Brewer regUser(Brewer b) throws Exception{
+		EntityManager em = EMF.createEntityManager();
+		em.getTransaction().begin();
+		em.persist(b);
+		em.getTransaction().commit();
+		logger.debug("registered brewer {} with id {}",b.getName(),b.getId());
+		return b;
 	}
 
 }

@@ -64,6 +64,24 @@ public class RecipeServiceImpl implements RecipeService {
 		return items;
 	}
 	
+	
+	@Override
+	public Brewer login(String username, String password) throws Exception{
+		EntityManager em = EMF.createEntityManager();
+		List<Brewer> brewers = em.createQuery("from Brewer b where b.name=:n and b.password=:p", Brewer.class)
+			.setParameter("n", username)
+			.setParameter("p", password)
+			.getResultList();
+		
+		if(brewers!=null && brewers.size()>0){
+			return brewers.get(0);
+		}
+		
+		return null;
+	}
+	
+	
+	@Override
 	public Brewer regUser(Brewer b) throws Exception{
 		EntityManager em = EMF.createEntityManager();
 		em.getTransaction().begin();

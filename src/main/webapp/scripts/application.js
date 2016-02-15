@@ -32,12 +32,14 @@ bdctrls.controller('ApplicationController', [ '$scope', 'USER_ROLES',
 		} ]);
 
 bdctrls.controller('LoginController', [ '$scope', '$rootScope', 'AUTH_EVENTS',
-		'AuthService', function($scope, $rootScope, AUTH_EVENTS, AuthService) {
+                                		'$http',
+		'AuthService', function($scope, $rootScope, AUTH_EVENTS, $http, AuthService) {
 			$scope.credentials = {
 				username : '',
 				password : ''
 			};
-			$scope.login = function(credentials) {
+			$scope.login = function() {
+				alert(credentials.username);
 				AuthService.login(credentials).then(function(user) {
 					$rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
 					$scope.setCurrentUser(user);
@@ -51,9 +53,9 @@ bdapp.factory('AuthService', function($http, Session) {
 	var authService = {};
 
 	authService.login = function(credentials) {
-		return $http.post('/login', credentials).then(function(res) {
-			Session.create(res.data.id, res.data.user.id, res.data.user.role);
-			return res.data.user;
+		return $http.post('http://localhost:8080/beerdiaries/api/recipe/login/'+credentials.username+'/'+credentials.password).then(function(res) {
+			Session.create(res.data.id, res.data.id, res.data.name);
+			return res.data;
 		});
 	};
 

@@ -38,6 +38,14 @@ public class RestController {
 		return recipeServ.getRecipe(id);
 	}
 	
+	@POST
+	@Produces({MediaType.APPLICATION_JSON})
+	@Consumes({MediaType.APPLICATION_JSON})
+	@Path("/login/{nickname}/{password}")
+	public Brewer login(@PathParam("nickname") String nickname, @PathParam("password") String password) throws Exception {
+		return recipeServ.login(nickname, password);
+	}
+	
 	
 	@POST
 	@Path("/regUser")

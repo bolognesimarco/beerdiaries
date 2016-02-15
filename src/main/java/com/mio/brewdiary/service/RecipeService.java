@@ -11,5 +11,6 @@ public interface RecipeService {
 	public List<RecipeListItem> listAllRecipes() throws Exception;
 	public Recipe getRecipe(int id) throws Exception;
 	public Brewer regUser(Brewer b) throws Exception;
+	public Brewer login(String username, String password) throws Exception;
 
 }

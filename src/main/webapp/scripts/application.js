@@ -31,32 +31,17 @@ bdctrls.controller('ApplicationController', [ '$scope', 'USER_ROLES',
 			};
 		} ]);
 
-bdctrls.controller('LoginController', [ '$scope', '$rootScope', 'AUTH_EVENTS',
-                                		'$http',
-		'AuthService', function($scope, $rootScope, AUTH_EVENTS, $http, AuthService) {
-			$scope.credentials = {
-				username : '',
-				password : ''
-			};
-			$scope.login = function() {
-				alert(credentials.username);
-				AuthService.login(credentials).then(function(user) {
-					$rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
-					$scope.setCurrentUser(user);
-				}, function() {
-					$rootScope.$broadcast(AUTH_EVENTS.loginFailed);
-				});
-			};
-		} ]);
-
 bdapp.factory('AuthService', function($http, Session) {
 	var authService = {};
 
 	authService.login = function(credentials) {
-		return $http.post('http://localhost:8080/beerdiaries/api/recipe/login/'+credentials.username+'/'+credentials.password).then(function(res) {
-			Session.create(res.data.id, res.data.id, res.data.name);
-			return res.data;
-		});
+		return $http.post(
+				'http://localhost:8080/beerdiaries/api/recipe/login/'
+						+ credentials.username + '/' + credentials.password)
+				.then(function(res) {
+					Session.create(res.data.id, res.data.id, res.data.name);
+					return res.data;
+				});
 	};
 
 	authService.isAuthenticated = function() {
@@ -106,6 +91,19 @@ bdapp.run(function($rootScope, AUTH_EVENTS, AuthService) {
 bdctrls.controller('diaryController', [ '$scope', '$rootScope',
 		function diaryController($scope, $rootScope) {
 		} ]);
+
+bdctrls.controller('LoginController', [ 
+        '$scope', 
+        function LoginController($scope) {
+			$scope.credentials = {
+				username : '',
+				password : ''
+			};
+			$scope.logggin = function() {
+				alert(credentials.username);
+		
+			};
+} ]);
 
 bdctrls.controller('registrationController', [
 		'$scope',
@@ -171,57 +169,58 @@ bdctrls.controller('logoutController', [ '$scope', '$rootScope',
 			$rootScope.logged = false;
 		} ]);
 
-bdapp.config([ '$routeProvider','USER_ROLES', function($routeProvider, USER_ROLES) {
-	$routeProvider.when('/reg', {
-		templateUrl : 'views/registration.html',
-		controller : 'registrationController',
-		data : {
-			authorizedRoles : [ USER_ROLES.all, USER_ROLES.all ]
-		}
-	}).when('/recipes', {
-		templateUrl : 'views/recipes.html',
-		controller : 'recipesController',
-		data : {
-			authorizedRoles : [ USER_ROLES.all ]
-		}
-	}).when('/diary', {
-		templateUrl : 'views/diary.html',
-		controller : 'diaryController',
-		data : {
-			authorizedRoles : [ USER_ROLES.all ]
-		}
-	}).when('/login', {
-		templateUrl : 'views/login.html',
-		controller : 'LoginController',
-		data : {
-			authorizedRoles : [ USER_ROLES.all ]
-		}
-	}).when('/loggedin', {
-		templateUrl : 'views/loggedin.html',
-		controller : 'loggedinController',
-		data : {
-			authorizedRoles : [ USER_ROLES.all ]
-		}
-	}).when('/logout', {
-		templateUrl : 'views/guest.html',
-		controller : 'logoutController',
-		data : {
-			authorizedRoles : [ USER_ROLES.all ]
-		}
-	}).when('/recipe/:recipeid', {
-		templateUrl : 'views/recipeDetail.html',
-		controller : 'recipeController',
-		data : {
-			authorizedRoles : [ USER_ROLES.all ]
-		}
-	}).otherwise({
-		redirectTo : 'views/guest.html',
-		controller : 'logoutController',
-		data : {
-			authorizedRoles : [ USER_ROLES.all ]
-		}
-	});
-} ]);
+bdapp.config([ '$routeProvider', 'USER_ROLES',
+		function($routeProvider, USER_ROLES) {
+			$routeProvider.when('/reg', {
+				templateUrl : 'views/registration.html',
+				controller : 'registrationController',
+				data : {
+					authorizedRoles : [ USER_ROLES.all, USER_ROLES.all ]
+				}
+			}).when('/recipes', {
+				templateUrl : 'views/recipes.html',
+				controller : 'recipesController',
+				data : {
+					authorizedRoles : [ USER_ROLES.all ]
+				}
+			}).when('/diary', {
+				templateUrl : 'views/diary.html',
+				controller : 'diaryController',
+				data : {
+					authorizedRoles : [ USER_ROLES.all ]
+				}
+			}).when('/login', {
+				templateUrl : 'views/login.html',
+				controller : 'LoginController',
+				data : {
+					authorizedRoles : [ USER_ROLES.all ]
+				}
+			}).when('/loggedin', {
+				templateUrl : 'views/loggedin.html',
+				controller : 'loggedinController',
+				data : {
+					authorizedRoles : [ USER_ROLES.all ]
+				}
+			}).when('/logout', {
+				templateUrl : 'views/guest.html',
+				controller : 'logoutController',
+				data : {
+					authorizedRoles : [ USER_ROLES.all ]
+				}
+			}).when('/recipe/:recipeid', {
+				templateUrl : 'views/recipeDetail.html',
+				controller : 'recipeController',
+				data : {
+					authorizedRoles : [ USER_ROLES.all ]
+				}
+			}).otherwise({
+				redirectTo : 'views/guest.html',
+				controller : 'logoutController',
+				data : {
+					authorizedRoles : [ USER_ROLES.all ]
+				}
+			});
+		} ]);
 
 bdapp.directive('validPasswordC', function() {
 	return {

@@ -22,12 +22,12 @@ bdctrls.controller('ApplicationController', [ '$scope', 'USER_ROLES',
 		'AuthService',
 
 		function($scope, USER_ROLES, AuthService) {
-			$scope.currentUser = null;
-			$scope.userRoles = USER_ROLES;
+			$scope.currentBrewer = null;
+			$scope.brewerRoles = USER_ROLES;
 			$scope.isAuthorized = AuthService.isAuthorized;
 
-			$scope.setCurrentUser = function(user) {
-				$scope.currentUser = user;
+			$scope.setCurrentBrewer = function(brewer) {
+				$scope.currentBrewer = brewer;
 			};
 		} ]);
 
@@ -35,17 +35,16 @@ bdapp.factory('AuthService', function($http, Session) {
 	var authService = {};
 
 	authService.login = function(credentials) {
-		return $http.post(
-				'http://localhost:8080/beerdiaries/api/recipe/login/'
-						+ credentials.username + '/' + credentials.password)
-				.then(function(res) {
-					Session.create(res.data.id, res.data.id, res.data.name);
-					return res.data;
-				});
+		AuthService.login(credentials).then(function(brewer) {
+			$rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
+			$scope.setCurrentBrewer(brewer);
+		}, function() {
+			$rootScope.$broadcast(AUTH_EVENTS.loginFailed);
+		});
 	};
 
 	authService.isAuthenticated = function() {
-		return !!Session.userId;
+		return !!Session.brewerId;
 	};
 
 	authService.isAuthorized = function(authorizedRoles) {
@@ -53,22 +52,22 @@ bdapp.factory('AuthService', function($http, Session) {
 			authorizedRoles = [ authorizedRoles ];
 		}
 		return (authService.isAuthenticated() && authorizedRoles
-				.indexOf(Session.userRole) !== -1);
+				.indexOf(Session.brewerRole) !== -1);
 	};
 
 	return authService;
 });
 
 bdapp.service('Session', function() {
-	this.create = function(sessionId, userId, userRole) {
+	this.create = function(sessionId, brewerId, brewerRole) {
 		this.id = sessionId;
-		this.userId = userId;
-		this.userRole = userRole;
+		this.brewerId = brewerId;
+		this.brewerRole = brewerRole;
 	};
 	this.destroy = function() {
 		this.id = null;
-		this.userId = null;
-		this.userRole = null;
+		this.brewerId = null;
+		this.brewerRole = null;
 	};
 });
 
@@ -92,18 +91,24 @@ bdctrls.controller('diaryController', [ '$scope', '$rootScope',
 		function diaryController($scope, $rootScope) {
 		} ]);
 
-bdctrls.controller('LoginController', [ 
-        '$scope', 
-        function LoginController($scope) {
-			$scope.credentials = {
-				username : '',
-				password : ''
-			};
+bdctrls.controller('LoginController', [ '$scope', '$rootScope', '$http',
+		'$location',
+		function LoginController($scope, $rootScope, $http, $location) {
+
 			$scope.logggin = function() {
-				alert(credentials.username);
-		
+				AuthService.login(credentials).then(function(brewer) {
+					$rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
+					$scope.setCurrentBrewer(brewer);
+				}, function() {
+					$rootScope.$broadcast(AUTH_EVENTS.loginFailed);
+				});
 			};
-} ]);
+
+			$scope.brewer = {
+				username : "",
+				password : ""
+			}
+		} ]);
 
 bdctrls.controller('registrationController', [
 		'$scope',
@@ -115,7 +120,7 @@ bdctrls.controller('registrationController', [
 			$scope.metodoDelController = function() {
 				var res = $http.post(
 						'http://localhost:8080/beerdiaries/api/recipe/regUser',
-						$scope.user);
+						$scope.brewer);
 				res.success(function(data, status, headers, config) {
 					$location.path("/																									loggedin");
 					$scope.$apply();
@@ -126,12 +131,12 @@ bdctrls.controller('registrationController', [
 						data : data
 					}));
 				});
-				alert($scope.user.username);
+				alert($scope.brewer.username);
 			};
 
 			$scope.message = "";
 
-			$scope.user = {
+			$scope.brewer = {
 				username : "",
 				password : "",
 				password_c : "",
@@ -168,7 +173,7 @@ bdctrls.controller('logoutController', [ '$scope', '$rootScope',
 		function logoutController($scope, $rootScope) {
 			$rootScope.logged = false;
 		} ]);
-
+ 
 bdapp.config([ '$routeProvider', 'USER_ROLES',
 		function($routeProvider, USER_ROLES) {
 			$routeProvider.when('/reg', {

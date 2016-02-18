@@ -38,7 +38,7 @@ public class RestController {
 		return recipeServ.getRecipe(id);
 	}
 	
-	@POST
+	@GET
 	@Produces({MediaType.APPLICATION_JSON})
 	@Consumes({MediaType.APPLICATION_JSON})
 	@Path("/login/{nickname}/{password}")

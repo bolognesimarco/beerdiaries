@@ -1,11 +1,11 @@
 <div class="container">
 	<h2>Login</h2>
-	<form class="form-horizontal" role="form" ng-submit="logggin()" name="loginForm" novalidate="">
+	<form class="form-horizontal" role="form" ng-submit="login(credentials)" name="loginForm" novalidate="">
 		
 		<div class="form-group">
 			<label for="username" class="col-sm-2 control-label">Brewer's username</label>
 			<div class="col-sm-5"> 
-				<input type="text" id="username" name="username" class="form-control" ng-model="brewer.username" required /> 
+				<input type="text" id="username" name="username" class="form-control" ng-model="credentials.username" required /> 
 			</div>
 			<div class="col-sm-5">
 				<span ng-show="loginForm.username.$error.required && loginForm.username.$dirty">required</span>
@@ -15,7 +15,7 @@
 		<div class="form-group">
 			<label for="password" class="col-sm-2 control-label">...and password</label>
 			<div class="col-sm-5"> 
-				<input type="text" id="password" name="password" class="form-control" ng-model="brewer.password" required /> 
+				<input type="text" id="password" name="password" class="form-control" ng-model="credentials.password" required /> 
 			</div>
 			<div class="col-sm-5">
 				<span ng-show="loginForm.password.$error.required && loginForm.password.$dirty">required</span>

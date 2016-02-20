@@ -8,7 +8,6 @@ import javax.persistence.EntityManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.mio.brewdiary.DBInitializer;
 import com.mio.brewdiary.dto.RecipeListItem;
 import com.mio.brewdiary.model.Brewer;
 import com.mio.brewdiary.model.Hop;

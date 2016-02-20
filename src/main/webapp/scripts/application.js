@@ -22,29 +22,33 @@ bdctrls.controller('ApplicationController', [ '$scope', 'USER_ROLES',
 		'AuthService',
 
 		function($scope, USER_ROLES, AuthService) {
-			$scope.currentBrewer = null;
-			$scope.brewerRoles = USER_ROLES;
+			$scope.currentUser = null;
+			$scope.userRoles = USER_ROLES;
 			$scope.isAuthorized = AuthService.isAuthorized;
 
-			$scope.setCurrentBrewer = function(brewer) {
-				$scope.currentBrewer = brewer;
+			$scope.setCurrentUser = function(user) {
+				$scope.currentUser = user;
 			};
-		} ]);
+		} 
+]);
+
 
 bdapp.factory('AuthService', function($http, Session) {
 	var authService = {};
 
 	authService.login = function(credentials) {
-		AuthService.login(credentials).then(function(brewer) {
-			$rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
-			$scope.setCurrentBrewer(brewer);
-		}, function() {
-			$rootScope.$broadcast(AUTH_EVENTS.loginFailed);
-		});
+		alert('auth service . login'+JSON.stringify(credentials));
+		return $http.post('http://localhost:8080/beerdiaries/api/recipe/login', credentials)
+			.then(function(res) {
+				alert('returned..')
+				Session.create(res.data.id, res.data.username, res.data.password);
+				return res.data.user;
+			},function(response){alert(response.statusText)});
+		
 	};
 
 	authService.isAuthenticated = function() {
-		return !!Session.brewerId;
+		return !!Session.userId;
 	};
 
 	authService.isAuthorized = function(authorizedRoles) {
@@ -52,22 +56,22 @@ bdapp.factory('AuthService', function($http, Session) {
 			authorizedRoles = [ authorizedRoles ];
 		}
 		return (authService.isAuthenticated() && authorizedRoles
-				.indexOf(Session.brewerRole) !== -1);
+				.indexOf(Session.userRole) !== -1);
 	};
 
 	return authService;
 });
 
 bdapp.service('Session', function() {
-	this.create = function(sessionId, brewerId, brewerRole) {
+	this.create = function(sessionId, userId, userRole) {
 		this.id = sessionId;
-		this.brewerId = brewerId;
-		this.brewerRole = brewerRole;
+		this.userId = userId;
+		this.userRole = userRole;
 	};
 	this.destroy = function() {
 		this.id = null;
-		this.brewerId = null;
-		this.brewerRole = null;
+		this.userId = null;
+		this.userRole = null;
 	};
 });
 
@@ -89,26 +93,34 @@ bdapp.run(function($rootScope, AUTH_EVENTS, AuthService) {
 
 bdctrls.controller('diaryController', [ '$scope', '$rootScope',
 		function diaryController($scope, $rootScope) {
-		} ]);
+		} 
+]);
 
 bdctrls.controller('LoginController', [ '$scope', '$rootScope', '$http',
-		'$location',
-		function LoginController($scope, $rootScope, $http, $location) {
+		'$location', 'AuthService',
+		function LoginController($scope, $rootScope, $http, $location, AuthService) {
 
-			$scope.logggin = function() {
-				AuthService.login(credentials).then(function(brewer) {
-					$rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
-					$scope.setCurrentBrewer(brewer);
-				}, function() {
-					$rootScope.$broadcast(AUTH_EVENTS.loginFailed);
-				});
+			$scope.login = function(credentials) {
+				alert('login controller . login : '+credentials);
+				AuthService.login(credentials).then(
+						function(user) {
+							$rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
+							$scope.setCurrentUser(user);
+						}, 
+						function() {
+							$rootScope.$broadcast(AUTH_EVENTS.loginFailed);
+						}
+				);
 			};
 
-			$scope.brewer = {
+			$scope.credentials  = {
 				username : "",
 				password : ""
 			}
-		} ]);
+		} 
+]);
+
+
 
 bdctrls.controller('registrationController', [
 		'$scope',
@@ -118,6 +130,7 @@ bdctrls.controller('registrationController', [
 		function registrationController($scope, $rootScope, $http, $location) {
 
 			$scope.metodoDelController = function() {
+				alert('registration'+JSON.stringify($scope.brewer));
 				var res = $http.post(
 						'http://localhost:8080/beerdiaries/api/recipe/regUser',
 						$scope.brewer);
@@ -173,7 +186,7 @@ bdctrls.controller('logoutController', [ '$scope', '$rootScope',
 		function logoutController($scope, $rootScope) {
 			$rootScope.logged = false;
 		} ]);
- 
+
 bdapp.config([ '$routeProvider', 'USER_ROLES',
 		function($routeProvider, USER_ROLES) {
 			$routeProvider.when('/reg', {

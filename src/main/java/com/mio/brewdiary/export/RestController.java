@@ -43,8 +43,10 @@ public class RestController {
 	@Consumes({MediaType.APPLICATION_JSON})
 	@Path("/login")
 	public Brewer login(Brewer b) throws Exception {
-		System.out.println(b.getUsername());
-		return recipeServ.login(b.getUsername(), b.getPassword());
+		System.out.println("========================"+b.getUsername()+"_"+b.getPassword());
+		Brewer f = recipeServ.login(b.getUsername(), b.getPassword());
+		System.out.println(f.getId());
+		return f;
 	}
 	
 	

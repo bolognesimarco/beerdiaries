@@ -40,7 +40,7 @@ bdapp.factory('AuthService', function($http, Session) {
 		alert('auth service . login'+JSON.stringify(credentials));
 		return $http.post('http://localhost:8080/beerdiaries/api/recipe/login', credentials)
 			.then(function(res) {
-				alert('returned..')
+				alert('returned..'+res.data.id+'-'+res.data.username+'-'+res.data.password);
 				Session.create(res.data.id, res.data.username, res.data.password);
 				return res.data.user;
 			},function(response){alert(response.statusText)});

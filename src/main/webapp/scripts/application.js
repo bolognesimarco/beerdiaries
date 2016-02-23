@@ -37,10 +37,8 @@ bdapp.factory('AuthService', function($http, Session) {
 	var authService = {};
 
 	authService.login = function(credentials) {
-		alert('auth service . login'+JSON.stringify(credentials));
 		return $http.post('http://localhost:8080/beerdiaries/api/recipe/login', credentials)
 			.then(function(res) {
-				alert('returned..'+res.data.id+'-'+res.data.username+'-'+res.data.password);
 				Session.create(res.data.id, res.data.username, res.data.password);
 				return res.data.user;
 			},function(response){alert(response.statusText)});
@@ -97,17 +95,19 @@ bdctrls.controller('diaryController', [ '$scope', '$rootScope',
 ]);
 
 bdctrls.controller('LoginController', [ '$scope', '$rootScope', '$http',
-		'$location', 'AuthService',
-		function LoginController($scope, $rootScope, $http, $location, AuthService) {
+		'$location', 'AuthService', 'AUTH_EVENTS',
+		function LoginController($scope, $rootScope, $http, $location, AuthService, AUTH_EVENTS) {
 
 			$scope.login = function(credentials) {
-				alert('login controller . login : '+credentials);
 				AuthService.login(credentials).then(
 						function(user) {
 							$rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
 							$scope.setCurrentUser(user);
+							alert($location.path());
+							$location.path("/loggedin");
 						}, 
 						function() {
+							alert('5');
 							$rootScope.$broadcast(AUTH_EVENTS.loginFailed);
 						}
 				);

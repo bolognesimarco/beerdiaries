@@ -67,7 +67,7 @@ public class RecipeServiceImpl implements RecipeService {
 	@Override
 	public Brewer login(String username, String password) throws Exception{
 		EntityManager em = EMF.createEntityManager();
-		List<Brewer> brewers = em.createQuery("from Brewer b where b.name=:n and b.password=:p", Brewer.class)
+		List<Brewer> brewers = em.createQuery("from Brewer b where b.username=:n and b.password=:p", Brewer.class)
 			.setParameter("n", username)
 			.setParameter("p", password)
 			.getResultList();

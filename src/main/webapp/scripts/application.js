@@ -22,7 +22,6 @@ bdctrls.controller('ApplicationController', [ '$scope', 'USER_ROLES',
 		'AuthService',
 
 		function($scope, USER_ROLES, AuthService) {
-			$scope.currentUser = null;
 			$scope.userRoles = USER_ROLES;
 			$scope.isAuthorized = AuthService.isAuthorized;
 
@@ -40,9 +39,13 @@ bdapp.factory('AuthService', function($http, Session) {
 		return $http.post('http://localhost:8080/beerdiaries/api/recipe/login', credentials)
 			.then(function(res) {
 				Session.create(res.data.id, res.data.username, res.data.password);
-				return res.data.user;
+				return res.data;
 			},function(response){alert(response.statusText)});
 		
+	};
+	
+	authService.logout = function() {
+		Session.destroy();	
 	};
 
 	authService.isAuthenticated = function() {
@@ -103,11 +106,9 @@ bdctrls.controller('LoginController', [ '$scope', '$rootScope', '$http',
 						function(user) {
 							$rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
 							$scope.setCurrentUser(user);
-							alert($location.path());
 							$location.path("/loggedin");
 						}, 
 						function() {
-							alert('5');
 							$rootScope.$broadcast(AUTH_EVENTS.loginFailed);
 						}
 				);
@@ -130,7 +131,6 @@ bdctrls.controller('registrationController', [
 		function registrationController($scope, $rootScope, $http, $location) {
 
 			$scope.metodoDelController = function() {
-				alert('registration'+JSON.stringify($scope.brewer));
 				var res = $http.post(
 						'http://localhost:8080/beerdiaries/api/recipe/regUser',
 						$scope.brewer);
@@ -144,7 +144,6 @@ bdctrls.controller('registrationController', [
 						data : data
 					}));
 				});
-				alert($scope.brewer.username);
 			};
 
 			$scope.message = "";
@@ -156,11 +155,14 @@ bdctrls.controller('registrationController', [
 				email : "",
 				name : ""
 			};
-		} ]);
+		} 
+]);
+
 bdctrls.controller('loggedinController', [ '$scope', '$rootScope',
 		function loggedinController($scope, $rootScope) {
 			$rootScope.logged = true;
-		} ]);
+		} 
+]);
 
 bdctrls.controller('recipeController', [
 		'$scope',
@@ -172,7 +174,9 @@ bdctrls.controller('recipeController', [
 							+ $routeParams.recipeid).then(function(response) {
 				$scope.recipe = response.data;
 			});
-		} ]);
+		} 
+]);
+
 bdctrls.controller('recipesController', [
 		'$scope',
 		'$http',
@@ -182,10 +186,12 @@ bdctrls.controller('recipesController', [
 						$scope.recipes = response.data;
 					});
 		} ]);
-bdctrls.controller('logoutController', [ '$scope', '$rootScope',
-		function logoutController($scope, $rootScope) {
-			$rootScope.logged = false;
-		} ]);
+bdctrls.controller('logoutController', [ '$scope', '$rootScope','AuthService',
+		function logoutController($scope, $rootScope, AuthService) {
+			AuthService.logout();
+			$scope.setCurrentUser(null);
+		} 
+]);
 
 bdapp.config([ '$routeProvider', 'USER_ROLES',
 		function($routeProvider, USER_ROLES) {

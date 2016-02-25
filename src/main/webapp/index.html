@@ -22,16 +22,16 @@
 				<div class="navbar-header">
 					<a class="navbar-brand" href="#">
 						<span ng-if="currentUser==null">beerdiaries</span>
-						<span ng-if="currentUser!=null">{{currentUser.username}}</span>
+						<span ng-if="currentUser!=null">{{currentUser.name}}</span>
 						
 					</a>
 				</div>
 				<ul class="nav navbar-nav">
-					<li ng-if="logged"><a href="#recipes">Recipes</a></li>
-					<li ng-if="logged"><a href="#diary">My Diary</a></li>
-					<li ng-if="!logged"><a href="#login">Login</a></li>
-					<li ng-if="logged"><a href="#logout">Logout</a></li>
-					<li ng-if="!logged"><a href="#reg">Registrati</a></li>
+					<li ng-if="currentUser!=null"><a href="#recipes">Recipes</a></li>
+					<li ng-if="currentUser!=null"><a href="#diary">My Diary</a></li>
+					<li ng-if="currentUser==null"><a href="#login">Login</a></li>
+					<li ng-if="currentUser!=null"><a href="#logout">Logout</a></li>
+					<li ng-if="currentUser==null"><a href="#reg">Registrati</a></li>
 				</ul>
 			</div>
 		</nav>

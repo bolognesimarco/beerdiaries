@@ -1,4 +1,4 @@
-var bdapp = angular.module('beerdiariesApplication', [ 'ngRoute', 'bdctrls' ]);
+var bdapp = angular.module('beerdiariesApplication', [ 'ngRoute', 'bdctrls', 'ngCookies' ]);
 
 var bdctrls = angular.module('bdctrls', []);
 
@@ -19,20 +19,32 @@ bdapp.constant('USER_ROLES', {
 });
 
 bdctrls.controller('ApplicationController', [ '$scope', 'USER_ROLES',
-		'AuthService',
+		'AuthService', '$cookieStore',
 
-		function($scope, USER_ROLES, AuthService) {
+		function($scope, USER_ROLES, AuthService, $cookieStore) {
 			$scope.userRoles = USER_ROLES;
 			$scope.isAuthorized = AuthService.isAuthorized;
+			$scope.currentUser = $scope.isAuthenticated();
 
 			$scope.setCurrentUser = function(user) {
+				alert(user.username);
 				$scope.currentUser = user;
 			};
+			
+			$scope.isAuthenticated = function(){
+				alert('ciaoooooooo');
+				if(!!$cookieStore.get('loggedinUser')){
+					alert(JSON.parse($cookieStore.get('loggedinUser')));
+					setCurrentUser(JSON.parse($cookieStore.get('loggedinUser')));
+				}else{
+					return null;
+				}
+			}
 		} 
 ]);
 
 
-bdapp.factory('AuthService', function($http, Session) {
+bdapp.factory('AuthService', function($http, Session, $cookieStore) {
 	var authService = {};
 
 	authService.login = function(credentials) {
@@ -48,7 +60,7 @@ bdapp.factory('AuthService', function($http, Session) {
 		Session.destroy();	
 	};
 
-	authService.isAuthenticated = function() {
+	authService.isAuthenticated = function(cookieStore) {
 		return !!Session.userId;
 	};
 
@@ -98,8 +110,8 @@ bdctrls.controller('diaryController', [ '$scope', '$rootScope',
 ]);
 
 bdctrls.controller('LoginController', [ '$scope', '$rootScope', '$http',
-		'$location', 'AuthService', 'AUTH_EVENTS',
-		function LoginController($scope, $rootScope, $http, $location, AuthService, AUTH_EVENTS) {
+		'$location', 'AuthService', 'AUTH_EVENTS', '$cookieStore',
+		function LoginController($scope, $rootScope, $http, $location, AuthService, AUTH_EVENTS, $cookieStore) {
 
 			$scope.login = function(credentials) {
 				AuthService.login(credentials).then(
@@ -107,6 +119,7 @@ bdctrls.controller('LoginController', [ '$scope', '$rootScope', '$http',
 							$rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
 							$scope.setCurrentUser(user);
 							$location.path("/loggedin");
+							$cookieStore.put('loggedinUser',JSON.stringify(user));
 						}, 
 						function() {
 							$rootScope.$broadcast(AUTH_EVENTS.loginFailed);
@@ -186,10 +199,11 @@ bdctrls.controller('recipesController', [
 						$scope.recipes = response.data;
 					});
 		} ]);
-bdctrls.controller('logoutController', [ '$scope', '$rootScope','AuthService',
-		function logoutController($scope, $rootScope, AuthService) {
+bdctrls.controller('logoutController', [ '$scope', '$rootScope','AuthService','$cookieStore',
+		function logoutController($scope, $rootScope, AuthService, $cookieStore) {
 			AuthService.logout();
 			$scope.setCurrentUser(null);
+			$cookieStore.put('loggedinUser', '');
 		} 
 ]);
 

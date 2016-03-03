@@ -24,7 +24,7 @@ bdctrls.controller('ApplicationController', [ '$scope', 'USER_ROLES',
 		function($scope, USER_ROLES, AuthService, $cookieStore) {
 			$scope.userRoles = USER_ROLES;
 			$scope.isAuthorized = AuthService.isAuthorized;
-			$scope.currentUser = $scope.isAuthenticated();
+			$scope.currentUser = $scope.setCurrentUser($scope.isAuthenticated());
 
 			$scope.setCurrentUser = function(user) {
 				alert(user.username);
@@ -35,7 +35,7 @@ bdctrls.controller('ApplicationController', [ '$scope', 'USER_ROLES',
 				alert('ciaoooooooo');
 				if(!!$cookieStore.get('loggedinUser')){
 					alert(JSON.parse($cookieStore.get('loggedinUser')));
-					setCurrentUser(JSON.parse($cookieStore.get('loggedinUser')));
+					return JSON.parse($cookieStore.get('loggedinUser'));
 				}else{
 					return null;
 				}

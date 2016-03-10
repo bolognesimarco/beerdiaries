@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html ng-app="beerdiariesApplication">
+<head>
+<meta charset="ISO-8859-1">
+<title>beerdiaries</title>
+<link rel="stylesheet"
+	href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+<link rel="stylesheet"
+	href="//netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.css" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-cookies.min.js"></script>
+<script src="scripts/application.js"></script>
+
+</head>
+<body ng-controller="ApplicationController">
+	<header>
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="#">
+						<span ng-if="currentUser==null">beerdiaries</span>
+						<span ng-if="currentUser!=null">{{currentUser.name}}</span>
+					</a>
+				</div>
+				<ul class="nav navbar-nav">
+					<li ng-if="currentUser!=null"><a href="#recipes">Recipes</a></li>
+					<li ng-if="currentUser!=null"><a href="#diary">My Diary</a></li>
+					<li ng-if="currentUser==null"><a href="#login">Login</a></li>
+					<li ng-if="currentUser!=null"><a href="#logout">Logout</a></li>
+					<li ng-if="currentUser==null"><a href="#reg">Registrati</a></li>
+				</ul>
+			</div>
+		</nav>
+		
+	</header>
+
+	<div ng-view></div>
+
+</body>
+</html>
